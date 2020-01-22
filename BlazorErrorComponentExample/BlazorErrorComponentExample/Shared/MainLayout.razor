@@ -1,0 +1,54 @@
+﻿@using Components
+
+@inherits LayoutComponentBase
+@implements IErrorComponent
+
+<div class="sidebar">
+    <NavMenu />
+</div>
+
+<div class="main">
+    <div class="top-row px-4">
+        <a href="http://blazor.net" target="_blank" class="ml-md-auto">About</a>
+    </div>
+
+    <div class="content px-4">
+        @if (isErrorActive)
+        {        
+        <div class="alert alert-danger" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close" @onclick="HideError">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <h3>@title</h3>
+            <p>@message</p>
+        </div>
+        }
+
+
+
+    <CascadingValue Value="this" Name="ErrorComponent">
+        @Body
+    </CascadingValue>
+
+    </div>
+</div>
+
+@code {
+
+    bool isErrorActive;
+    string title;
+    string message;
+
+    public void ShowError(string title, string message)
+    {
+        this.isErrorActive = true;
+        this.title = title;
+        this.message = message;
+        StateHasChanged();
+    }
+
+    private void HideError()
+    {
+        isErrorActive = false;
+    }
+}
